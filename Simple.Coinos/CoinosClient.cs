@@ -154,13 +154,14 @@ public class CoinosClient
     }
 
     /* Payments */
-    public async Task ListPayments(DateTime startUTC, DateTime endUTC, int limit, int? offset = null)
+    public async Task<Models.Payments> ListPayments(DateTime startUTC, DateTime endUTC, int limit, int? offset = null)
     {
         if (!Authenticated) throw new Exception("You must logon first");
 
-        var r = await client.GetAsync<string>($"payments?start={epoch(startUTC)}&end={epoch(endUTC)}&limit={limit}&offset={offset ?? 0}");
-        r = r;
+        var r = await client.GetAsync<Models.Payments>($"payments?start={epoch(startUTC)}&end={epoch(endUTC)}&limit={limit}&offset={offset ?? 0}");
         r.EnsureSuccessStatusCode<string>();
+
+        return r.Data;
     }
 
     public async Task Payment_Lightning(string invoice)
@@ -182,6 +183,6 @@ public class CoinosClient
 
     private long epoch(DateTime dt)
     {
-        return (long)(dt - DateTime.UnixEpoch).TotalSeconds;
+        return (long)(dt - DateTime.UnixEpoch).TotalMilliseconds;
     }
 }
