@@ -78,6 +78,16 @@ public class CoinosClient
         Authenticated = true;
         return r.Data.user;
     }
+    public void AuthenticateWithStoredToken(string token)
+    {
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            throw new ArgumentException($"'{nameof(token)}' cannot be null or whitespace.", nameof(token));
+        }
+
+        client.SetAuthorizationBearer(token);
+        Authenticated = true;
+    }
 
     public async Task<Models.UserInfo> Me()
     {
