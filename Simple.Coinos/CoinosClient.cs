@@ -174,7 +174,7 @@ public class CoinosClient
         return r.Data;
     }
 
-    public async Task Payment_Lightning(string invoice)
+    public async Task Payment_ToInvoice(string invoice)
     {
         if (!Authenticated) throw new Exception("You must logon first");
 
@@ -189,6 +189,23 @@ public class CoinosClient
         });
         r = r;
         r.EnsureSuccessStatusCode<string>();
+    }
+    public async Task Payment_ToAddress(string ln_address, int amount_sat, int max_fee = 500)
+    {
+        if (!Authenticated) throw new Exception("You must logon first");
+
+        if (string.IsNullOrWhiteSpace(ln_address))
+        {
+            throw new ArgumentException($"'{nameof(ln_address)}' cannot be null or whitespace.", nameof(ln_address));
+        }
+
+        var r = await client.PostAsync<string>($"send/{ln_address}/{amount_sat}?maxfee={max_fee}", null);
+
+        r = r;
+        r.EnsureSuccessStatusCode<string>();
+
+
+
     }
 
     private long epoch(DateTime dt)
