@@ -23,6 +23,7 @@ public class CoinosClient
     private ClientInfo client;
     public ClientInfo InternalClient => client;
     public bool Authenticated { get; private set; } = false;
+    public string CurrentAuthToken { get; private set; }
 
     public CoinosClient()
     {
@@ -75,6 +76,7 @@ public class CoinosClient
 
         r.EnsureSuccessStatusCode<string>();
         client.SetAuthorizationBearer(r.Data.token);
+        CurrentAuthToken = r.Data.token;
         Authenticated = true;
         return r.Data.user;
     }
@@ -86,6 +88,7 @@ public class CoinosClient
         }
 
         client.SetAuthorizationBearer(token);
+        CurrentAuthToken = token;
         Authenticated = true;
     }
 
