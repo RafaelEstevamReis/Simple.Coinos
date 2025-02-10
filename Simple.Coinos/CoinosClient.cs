@@ -3,7 +3,6 @@
 using Simple.API;
 using System;
 using System.Threading.Tasks;
-using static Simple.Coinos.CoinosClient;
 
 /// <summary>
 /// Coinos API
@@ -32,8 +31,7 @@ public class CoinosClient
 
     /* User Handling */
 
-    // "null user" errror
-    internal async Task Register(string username, string password)
+    public async Task<Models.UserInfo> Register(string username, string password)
     {
         if (string.IsNullOrWhiteSpace(username))
         {
@@ -44,7 +42,7 @@ public class CoinosClient
             throw new ArgumentException($"'{nameof(password)}' cannot be null or whitespace.", nameof(password));
         }
 
-        var r = await client.PostAsync<string>("register", new
+        var r = await client.PostAsync<Models.UserInfo>("register", new
         {
             user = new
             {
@@ -54,7 +52,7 @@ public class CoinosClient
         });
 
         r.EnsureSuccessStatusCode<string>();
-
+        return r.Data;
     }
 
     public async Task<Models.UserInfo> Login(string username, string password)
