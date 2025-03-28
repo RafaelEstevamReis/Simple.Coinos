@@ -1,6 +1,7 @@
 ﻿namespace Simple.Coinos;
 
 using Simple.API;
+using Simple.Coinos.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -231,9 +232,9 @@ public class CoinosClient
     /// <summary>
     /// Get rates in USD (allow unauthenticated)
     /// </summary>
-    public async Task<string> Rates_USD()
+    public async Task<RatesModels> Rates_USD()
     {
-        var r = await client.GetAsync<string>("fx"); // rate forex
+        var r = await client.GetAsync<RatesModels>("fx"); // rate forex
 
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
