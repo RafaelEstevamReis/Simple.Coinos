@@ -5,6 +5,7 @@ Console.WriteLine("Hello, World!");
 
 var lines = File.ReadAllLines("user.txt");
 var pair = lines[0].Split(',');
+
 string? token = null;
 if(lines.Length > 1 && lines[1].StartsWith("ey"))
 {
@@ -26,10 +27,15 @@ else
 }
 
 //await c.Balances();
+//var friends = await c.GetContacts();
+//var maplocations = await c.Locations();
 //var invoiceCreated = await c.CreateInvoice(Simple.Coinos.CoinosClient.Network.lightning, "BRL", valueFiat: 0.15M, memo: "test");
 //var invoiceDetails = await c.GetInvoice("lnbc...");
 //var lst = await c.ListPayments(DateTime.UtcNow.AddDays(-7), DateTime.UtcNow, 100);
 //await c.Payment_Lightning("lnbc...");
+
+//var rates = await c.Rates_USD();
+//var rate = await c.Rates_BTCUSD();
 
 c = c;
 
