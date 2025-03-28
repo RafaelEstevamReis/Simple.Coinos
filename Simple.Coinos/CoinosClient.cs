@@ -94,17 +94,34 @@ public class CoinosClient
     {
         if (!Authenticated) throw new Exception("You must logon first");
 
-        var s = await client.GetAsync<string>("me");
         var r = await client.GetAsync<Models.UserInfo>("me");
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
     }
+    public async Task<Models.NodeInfoModel> NodeInfo()
+    {
+        if (!Authenticated) throw new Exception("You must logon first");
 
+        var r = await client.GetAsync<Models.NodeInfoModel>("info");
+        r.EnsureSuccessStatusCode<string>();
+        return r.Data;
+    }
+
+    [Obsolete("Use `Me()` instead", false)]
     public async Task<string> Balances()
     {
         if (!Authenticated) throw new Exception("You must logon first");
 
         var r = await client.GetAsync<string>("balances");
+        r.EnsureSuccessStatusCode<string>();
+        return r.Data;
+    }
+
+    public async Task<Models.ContactsModel> GetContacts()
+    {
+        if (!Authenticated) throw new Exception("You must logon first");
+
+        var r = await client.GetAsync<Models.ContactsModel>("contacts");
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
     }
@@ -209,6 +226,39 @@ public class CoinosClient
 
 
     }
+
+    /* Misc */
+    /// <summary>
+    /// Get rates in USD (allow unauthenticated)
+    /// </summary>
+    public async Task<string> Rates_USD()
+    {
+        var r = await client.GetAsync<string>("fx"); // rate forex
+
+        r.EnsureSuccessStatusCode<string>();
+        return r.Data;
+    }
+    /// <summary>
+    /// Get BTC/USD (allow unauthenticated)
+    /// </summary>
+    public async Task<decimal> Rates_BTCUSD()
+    {
+        var r = await client.GetAsync<decimal>("rate");
+
+        r.EnsureSuccessStatusCode<string>();
+        return r.Data;
+    }
+    /// <summary>
+    /// Get CoinosMap pins (allow unauthenticated)
+    /// </summary>
+    public async Task<Models.LocationsModel> Locations()
+    {
+        var r = await client.GetAsync<Models.LocationsModel>("locations"); // rate forex
+
+        r.EnsureSuccessStatusCode<string>();
+        return r.Data;
+    }
+
 
     private long epoch(DateTime dt)
     {
