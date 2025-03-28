@@ -94,18 +94,19 @@ public class CoinosClient
     {
         if (!Authenticated) throw new Exception("You must logon first");
 
+        var s = await client.GetAsync<string>("me");
         var r = await client.GetAsync<Models.UserInfo>("me");
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
     }
 
-    public async Task Balances()
+    public async Task<string> Balances()
     {
         if (!Authenticated) throw new Exception("You must logon first");
 
         var r = await client.GetAsync<string>("balances");
         r.EnsureSuccessStatusCode<string>();
-        //return r.Data;
+        return r.Data;
     }
 
     /* Invoices */

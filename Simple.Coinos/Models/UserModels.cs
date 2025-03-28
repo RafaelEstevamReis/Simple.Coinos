@@ -10,6 +10,7 @@ public class UserLogin
 
 public class UserInfo
 {
+    public int balance { get; set; }
     public string[] currencies { get; set; }
     public string currency { get; set; }
     public bool fiat { get; set; }
