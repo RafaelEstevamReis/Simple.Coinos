@@ -26,13 +26,12 @@ else
     userInfo = await c.Login(pair[0], pair[1]);
 }
 
-//await c.Balances();
 //var friends = await c.GetContacts();
 //var maplocations = await c.Locations();
 //var invoiceCreated = await c.CreateInvoice(Simple.Coinos.CoinosClient.Network.lightning, "BRL", valueFiat: 0.15M, memo: "test");
 //var invoiceDetails = await c.GetInvoice("lnbc...");
 //var lst = await c.ListPayments(DateTime.UtcNow.AddDays(-7), DateTime.UtcNow, 100);
-//await c.Payment_Lightning("lnbc...");
+//var payment = await c.Payment_ToInvoice("lnbc...");
 
 //var rates = await c.Rates_USD();
 //var rate = await c.Rates_BTCUSD();
