@@ -193,7 +193,7 @@ public class CoinosClient
         return r.Data;
     }
 
-    public async Task Payment_ToInvoice(string invoice)
+    public async Task<Models.Payment> Payment_ToInvoice(string invoice)
     {
         if (!Authenticated) throw new Exception("You must logon first");
 
@@ -202,12 +202,13 @@ public class CoinosClient
             throw new ArgumentException($"'{nameof(invoice)}' cannot be null or whitespace.", nameof(invoice));
         }
 
-        var r = await client.PostAsync<string>("payments", new
+        var r = await client.PostAsync<Models.Payment>("payments", new
         {
             payreq = invoice,
         });
-        r = r;
+
         r.EnsureSuccessStatusCode<string>();
+        return r.Data;
     }
     public async Task Payment_ToAddress(string ln_address, int amount_sat, int max_fee = 500)
     {
@@ -258,7 +259,6 @@ public class CoinosClient
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
     }
-
 
     private long epoch(DateTime dt)
     {
