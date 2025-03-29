@@ -5,7 +5,7 @@
 		<LangVersion>12</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>disable</ImplicitUsings>
-		<Version>0.3.1</Version>
+		<Version>0.3.2</Version>
 		<Authors>RafaelEstevam.net</Authors>
 		<Company>Rafael Estevam</Company>
 		<Description>A simple Coinos.io C# API client</Description>
