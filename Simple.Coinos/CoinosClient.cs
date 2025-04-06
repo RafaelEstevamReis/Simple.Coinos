@@ -205,9 +205,7 @@ public class CoinosClient
         if (!Authenticated) throw new Exception("You must logon first");
 
         if (string.IsNullOrWhiteSpace(invoice))
-        {
             throw new ArgumentException($"'{nameof(invoice)}' cannot be null or whitespace.", nameof(invoice));
-        }
 
         var r = await client.PostAsync<Models.Payment>("payments", new
         {
@@ -217,20 +215,19 @@ public class CoinosClient
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
     }
+
     [Obsolete("Use `Payment_ToLNAddress()` instead", false)]
-    public async Task Payment_ToAddress(string ln_address, int amount_sat, int max_fee = 500) => await Payment_ToLNAddress(ln_address, amount_sat, max_fee);
+    public async Task Payment_ToAddress(string ln_address, int amount_sat, int max_fee = 500) 
+        => await Payment_ToLNAddress(ln_address, amount_sat, max_fee);
     public async Task<Models.Payment> Payment_ToLNAddress(string ln_address, int amount_sat, int max_fee = 500)
     {
         if (!Authenticated) throw new Exception("You must logon first");
 
         if (string.IsNullOrWhiteSpace(ln_address))
-        {
             throw new ArgumentException($"'{nameof(ln_address)}' cannot be null or whitespace.", nameof(ln_address));
-        }
 
         var r = await client.PostAsync<Models.Payment>($"send/{ln_address}/{amount_sat}?maxfee={max_fee}", null);
 
-        r = r;
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
     }
