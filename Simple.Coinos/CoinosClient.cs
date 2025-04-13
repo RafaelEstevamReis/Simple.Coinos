@@ -263,9 +263,20 @@ public class CoinosClient
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
     }
+    /// <summary>
+    /// Coinos internal Credit system
+    /// </summary>
+    public async Task<Models.CreditsModel> GetCredits()
+    {
+        var r = await client.GetAsync<Models.CreditsModel>("credits");
+
+        r.EnsureSuccessStatusCode<string>();
+        return r.Data;
+    }
 
     private long epoch(DateTime dt)
     {
         return (long)(dt - DateTime.UnixEpoch).TotalMilliseconds;
     }
+
 }

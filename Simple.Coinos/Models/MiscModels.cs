@@ -1,6 +1,5 @@
 ﻿namespace Simple.Coinos.Models;
 
-using System;
 using System.Collections.Generic;
 
 public class ContactsModel
@@ -18,4 +17,11 @@ public class ContactsModel
 public class RatesModels
 {
     public Dictionary<string, decimal> fx { get; set; }
+}
+
+public class CreditsModel
+{
+    public long bitcoin { get; set; }
+    public long lightning { get; set; }
+    public long liquid { get; set; }
 }
