@@ -258,7 +258,7 @@ public class CoinosClient
     /// </summary>
     public async Task<Models.LocationsModel> Locations()
     {
-        var r = await client.GetAsync<Models.LocationsModel>("locations"); // rate forex
+        var r = await client.GetAsync<Models.LocationsModel>("locations");
 
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
