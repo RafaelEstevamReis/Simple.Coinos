@@ -35,6 +35,7 @@ else
 
 //var rates = await c.Rates_USD();
 //var rate = await c.Rates_BTCUSD();
+//var credits = await c.GetCredits();
 
 c = c;
 
