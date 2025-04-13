@@ -231,6 +231,41 @@ public class CoinosClient
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
     }
+   
+    /// <summary>
+    /// Simulates a transaction to calculate fees
+    /// </summary>
+    public async Task<Models.BitcoinFee> GetBitcoinFee(string address, int amount_sat)
+    {
+        var r = await client.PostAsync<Models.BitcoinFee>("bitcoin/fee", new
+        {
+            address,
+            amount = amount_sat,
+        });
+
+        r.EnsureSuccessStatusCode<string>();
+        return r.Data;
+    }
+    /// <summary>
+    /// Sends a OnChain transaction
+    /// </summary>
+    /// <param name="address">Bitcoin address to pay to</param>
+    /// <param name="amount_sat">Amount in sats</param>
+    /// <param name="fee_rate">Fee, 0: Automatic</param>
+    /// <returns></returns>
+    public async Task<Models.Payment> Payment_ToOnChainAddress(string address, int amount_sat, int fee_rate)
+    {
+        var r = await client.PostAsync<Models.Payment>("bitcoin/send", new
+        {
+            address,
+            amount = amount_sat,
+            rate = fee_rate,
+        });
+
+        r.EnsureSuccessStatusCode<string>();
+        return r.Data;
+    }
+
 
     /* Misc */
     /// <summary>

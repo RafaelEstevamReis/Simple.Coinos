@@ -33,6 +33,9 @@ else
 //var lst = await c.ListPayments(DateTime.UtcNow.AddDays(-7), DateTime.UtcNow, 100);
 //var payment = await c.Payment_ToInvoice("lnbc...");
 
+//var estimateFee = await c.GetBitcoinFee("bc1q...", 1000);
+//var payBtc = await c.Payment_ToOnChainAddress("bc1q...", 1000, 0);
+
 //var rates = await c.Rates_USD();
 //var rate = await c.Rates_BTCUSD();
 //var credits = await c.GetCredits();

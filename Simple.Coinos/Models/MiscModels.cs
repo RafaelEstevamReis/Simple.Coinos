@@ -25,3 +25,33 @@ public class CreditsModel
     public long lightning { get; set; }
     public long liquid { get; set; }
 }
+public class BitcoinFee
+{
+    public long feeRate { get; set; }
+    public long ourfee { get; set; }
+    public long fee { get; set; }
+    public Fees fees { get; set; }
+    public string hex { get; set; }
+    public Input[] inputs { get; set; }
+
+    public class Fees
+    {
+        public int fastestFee { get; set; }
+        public int halfHourFee { get; set; }
+        public int hourFee { get; set; }
+        public int economyFee { get; set; }
+        public int minimumFee { get; set; }
+    }
+
+    public class Input
+    {
+        public Witnessutxo witnessUtxo { get; set; }
+        public string path { get; set; }
+    }
+
+    public class Witnessutxo
+    {
+        public long amount { get; set; }
+        public string script { get; set; }
+    }
+}
