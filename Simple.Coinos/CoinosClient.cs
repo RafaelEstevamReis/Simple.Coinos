@@ -217,7 +217,7 @@ public class CoinosClient
     }
 
     [Obsolete("Use `Payment_ToLNAddress()` instead", false)]
-    public async Task Payment_ToAddress(string ln_address, int amount_sat, int max_fee = 500) 
+    public async Task Payment_ToAddress(string ln_address, int amount_sat, int max_fee = 500)
         => await Payment_ToLNAddress(ln_address, amount_sat, max_fee);
     public async Task<Models.Payment> Payment_ToLNAddress(string ln_address, int amount_sat, int max_fee = 500)
     {
@@ -231,7 +231,7 @@ public class CoinosClient
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
     }
-   
+
     /// <summary>
     /// Simulates a transaction to calculate fees
     /// </summary>
@@ -304,6 +304,16 @@ public class CoinosClient
     public async Task<Models.CreditsModel> GetCredits()
     {
         var r = await client.GetAsync<Models.CreditsModel>("credits");
+
+        r.EnsureSuccessStatusCode<string>();
+        return r.Data;
+    }
+    /// <summary>
+    /// Decodes an LN invoice
+    /// </summary>
+    public async Task<Models.DecodedInvoice> Decode(string invoice)
+    {
+        var r = await client.GetAsync<Models.DecodedInvoice>("decode/" + invoice);
 
         r.EnsureSuccessStatusCode<string>();
         return r.Data;

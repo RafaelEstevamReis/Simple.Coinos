@@ -55,3 +55,32 @@ public class BitcoinFee
         public string script { get; set; }
     }
 }
+
+public class DecodedInvoice
+{
+    public string type { get; set; }
+    public string currency { get; set; }
+    public int created_at { get; set; }
+    public int expiry { get; set; }
+    public string payee { get; set; }
+    public int amount_msat { get; set; }
+    public string description_hash { get; set; }
+    public int min_final_cltv_expiry { get; set; }
+    public string payment_secret { get; set; }
+    public string features { get; set; }
+    public Route[][] routes { get; set; }
+    public string payment_hash { get; set; }
+    public string signature { get; set; }
+    public bool valid { get; set; }
+    public string offer_id { get; set; }
+    public string offer_description { get; set; }
+    public string offer_issuer_id { get; set; }
+    public class Route
+    {
+        public string pubkey { get; set; }
+        public string short_channel_id { get; set; }
+        public int fee_base_msat { get; set; }
+        public int fee_proportional_millionths { get; set; }
+        public int cltv_expiry_delta { get; set; }
+    }
+}
