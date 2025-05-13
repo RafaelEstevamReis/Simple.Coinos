@@ -4,7 +4,7 @@ A simple-to-use [Coinos.io](https://coinos.io) C# API implementation
 
 NuGet [link](https://www.nuget.org/packages/Simple.Coinos/):
 ~~~
-PM> NuGet\Install-Package Simple.Coino
+PM> NuGet\Install-Package Simple.Coinos
 ~~~
 
 ## Usage
