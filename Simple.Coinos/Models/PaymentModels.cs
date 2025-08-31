@@ -24,6 +24,7 @@ public class Payment
     public string hash { get; set; } = string.Empty;
     public long ourfee { get; set; }
     public string uid { get; set; } = string.Empty;
+    public string aid { get; set; } = string.Empty;
     public bool confirmed { get; set; }
     public decimal rate { get; set; }
     public string currency { get; set; } = string.Empty;
