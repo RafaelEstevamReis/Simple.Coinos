@@ -26,6 +26,10 @@ else
     userInfo = await c.Login(pair[0], pair[1]);
 }
 
+//var fund = await c.GetFund("021-fund_id");
+//var p2f = await c.Payment_ToCoinosFund("021-fund_id", 21);
+//await c.GeFundManager("021-fund_id");
+
 //var friends = await c.GetContacts();
 //var maplocations = await c.Locations();
 //var invoiceCreated = await c.CreateInvoice(Simple.Coinos.CoinosClient.Network.lightning, "BRL", valueFiat: 0.15M, memo: "test");
