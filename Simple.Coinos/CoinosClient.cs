@@ -267,6 +267,34 @@ public class CoinosClient
     }
 
 
+    /* Funds */
+    public async Task<Models.FundModel> GetFund(string fund_id)
+    {
+        var r = await client.GetAsync<Models.FundModel>($"fund/{fund_id}");
+        r = r;
+        r.EnsureSuccessStatusCode();
+        return r.Data;
+    }
+    public async Task GeFundManager(string fund_id)
+    {
+        var r = await client.GetAsync<Models.FundManagerUserModel[]>($"fund/{fund_id}/managers");
+        r = r;
+        r.EnsureSuccessStatusCode();
+    }
+
+    public async Task<Models.Payment> Payment_ToCoinosFund(string fund_id, int amount_sat)
+    {
+        var r = await client.PostAsync<Models.Payment>("payments", new
+        {
+            fund = fund_id,
+            amount = amount_sat,
+        });
+
+        r.EnsureSuccessStatusCode<string>();
+        return r.Data;
+    }
+
+
     /* Misc */
     /// <summary>
     /// Get rates in USD (allow unauthenticated)
