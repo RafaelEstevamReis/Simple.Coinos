@@ -26,6 +26,10 @@ else
     userInfo = await c.Login(pair[0], pair[1]);
 }
 
+// var roToken = await c.GetReadOnlyToken();
+// // Auth as ReadOnly
+// //c.AuthenticateWithStoredToken(roToken);
+
 //var fund = await c.GetFund("021-fund_id");
 //var p2f = await c.Payment_ToCoinosFund("021-fund_id", 21);
 //await c.GeFundManager("021-fund_id");
