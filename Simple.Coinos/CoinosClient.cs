@@ -94,6 +94,20 @@ public class CoinosClient
         CurrentAuthToken = token;
         Authenticated = true;
     }
+    
+    /// <summary>
+    /// Gets a ReadOnly token for the authenticated user
+    /// </summary>
+    /// <returns>A JWT Token with read-only permission</returns>
+    public async Task<string> GetReadOnlyToken()
+    {
+        if (!Authenticated) throw new Exception("You must logon first");
+
+        var r = await client.GetAsync<string>("ro");
+        r.EnsureSuccessStatusCode<string>();
+
+        return r.Data;
+    }
 
     public async Task<Models.UserInfo> Me()
     {
