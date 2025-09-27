@@ -36,6 +36,7 @@ else
 
 //var friends = await c.GetContacts();
 //var maplocations = await c.Locations();
+//var payment = await c.PayUserGenerateInvoice("adam", 21);
 //var invoiceCreated = await c.CreateInvoice(Simple.Coinos.CoinosClient.Network.lightning, "BRL", valueFiat: 0.15M, memo: "test");
 //var invoiceDetails = await c.GetInvoice("lnbc...");
 //var lst = await c.ListPayments(DateTime.UtcNow.AddDays(-7), DateTime.UtcNow, 100);
