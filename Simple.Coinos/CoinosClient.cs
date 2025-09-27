@@ -320,10 +320,12 @@ public class CoinosClient
         r.EnsureSuccessStatusCode();
         return r.Data;
     }
-    public async Task GeFundManager(string fund_id)
+    public async Task<Models.FundManagerUserModel[]> GeFundManager(string fund_id)
     {
         var r = await client.GetAsync<Models.FundManagerUserModel[]>($"fund/{fund_id}/managers");
         r.EnsureSuccessStatusCode();
+
+        return r.Data;
     }
 
     public async Task<Models.Payment> Payment_ToCoinosFund(string fund_id, int amount_sat)
