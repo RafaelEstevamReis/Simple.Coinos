@@ -1,8 +1,8 @@
-# Simple.Coinos
+ # Simple.Coinos
 
 A simple-to-use [Coinos.io](https://coinos.io) C# API implementation
 
-NuGet [link](https://www.nuget.org/packages/Simple.Coinos/):
+[![NuGet](https://img.shields.io/nuget/v/Simple.Coinos)](https://www.nuget.org/packages/Simple.Coinos/)
 ~~~
 PM> NuGet\Install-Package Simple.Coinos
 ~~~
