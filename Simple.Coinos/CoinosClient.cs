@@ -203,6 +203,38 @@ public class CoinosClient
         return r.Data;
     }
 
+    /// <summary>
+    /// Request an invoice to pay any Coinos user (allow unauthenticated)
+    /// </summary>
+    /// <param name="userName">Username to generate invoice to</param>
+    /// <param name="valueSat">Invoice amount in sats</param>
+    /// <returns>Two stage object containing both Pyament data and Invoice data</returns>
+    public async Task<Models.PayUserModel> PayUserGenerateInvoice(string userName, ulong valueSat)
+    {
+        if (string.IsNullOrWhiteSpace(userName))
+        {
+            throw new ArgumentException($"'{nameof(userName)}' cannot be null or whitespace.", nameof(userName));
+        }
+        if (valueSat <= 0)
+        {
+            throw new ArgumentException($"'{nameof(valueSat)}' must be positive.", nameof(valueSat));
+        }
+
+        var rPayment = await client.GetAsync<Models.PayUserModel.PayUserPayment>($"pay/{userName}/{valueSat}");
+        rPayment.EnsureSuccessStatusCode();
+
+        var paymentId = rPayment.Data.callback.Split('/')[^1];
+        var rInvoice = await client.GetAsync<Models.PayUserModel.PayUserInvoice>($"lnurl/{paymentId}");
+
+        var data = new Models.PayUserModel
+        {
+            Payment = rPayment.Data,
+            Invoice = rInvoice.Data,
+        };
+
+        return data;
+    }
+
     /* Payments */
     public async Task<Models.Payments> ListPayments(DateTime startUTC, DateTime endUTC, int limit, int? offset = null)
     {
@@ -285,7 +317,6 @@ public class CoinosClient
     public async Task<Models.FundModel> GetFund(string fund_id)
     {
         var r = await client.GetAsync<Models.FundModel>($"fund/{fund_id}");
-        r = r;
         r.EnsureSuccessStatusCode();
         return r.Data;
     }

@@ -35,3 +35,26 @@ public class Payment
     public string? iid { get; set; }
     public string? memo { get; set; }
 }
+public class PayUserModel
+{
+    public PayUserPayment Payment { get; set; }
+    public PayUserInvoice Invoice { get; set; }
+
+    public class PayUserPayment
+    {
+        public bool allowsNostr { get; set; }
+        public int minSendable { get; set; }
+        public int maxSendable { get; set; }
+        public string metadata { get; set; }
+        public string nostrPubkey { get; set; }
+        public int commentAllowed { get; set; }
+        public string callback { get; set; }
+        public string tag { get; set; }
+    }
+    public class PayUserInvoice
+    {
+        public string pr { get; set; }
+        public object[] routes { get; set; }
+        public string verify { get; set; }
+    }
+}
