@@ -94,7 +94,7 @@ public class CoinosClient
         CurrentAuthToken = token;
         Authenticated = true;
     }
-    
+
     /// <summary>
     /// Gets a ReadOnly token for the authenticated user
     /// </summary>
@@ -148,7 +148,7 @@ public class CoinosClient
     }
 
     /* Invoices */
-    public async Task<Models.InvoiceDetalis> CreateInvoice(Network network, string currency, ulong? valueSat = null, decimal? valueFiat = null, string? memo = null, string? webhook = null)
+    public async Task<Models.InvoiceDetalis> CreateInvoice(Network network, string currency, ulong? valueSat = null, decimal? valueFiat = null, int? expiry = null, string? memo = null, string? webhook = null)
     {
         if (!Authenticated) throw new Exception("You must logon first");
 
@@ -179,6 +179,7 @@ public class CoinosClient
                 fiat = valueFiat,
                 type = network.ToString(),
                 currency,
+                expiry,
                 memo,
                 webhook,
             }
