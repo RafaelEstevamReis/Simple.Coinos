@@ -58,6 +58,9 @@ public class CoinosClient
         return r.Data;
     }
 
+    /// <summary>
+    /// This function can fail for captcha check
+    /// </summary>
     public async Task<Models.UserInfo> Login(string username, string password)
     {
         if (string.IsNullOrWhiteSpace(username))
@@ -83,6 +86,7 @@ public class CoinosClient
         LastUserInfo = r.Data.user;
         return r.Data.user;
     }
+
     public void AuthenticateWithStoredToken(string token)
     {
         if (string.IsNullOrWhiteSpace(token))
@@ -119,6 +123,7 @@ public class CoinosClient
         LastUserInfo = r.Data;
         return r.Data;
     }
+
     public async Task<Models.NodeInfoModel> NodeInfo()
     {
         if (!Authenticated) throw new Exception("You must logon first");
@@ -166,6 +171,7 @@ public class CoinosClient
             }
         });
     }
+
     /// <summary>
     /// Generate a new invoice on behalf of a user (allow unauthenticated)
     /// </summary>
@@ -321,6 +327,7 @@ public class CoinosClient
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
     }
+
     /// <summary>
     /// Sends a OnChain transaction
     /// </summary>
@@ -348,6 +355,7 @@ public class CoinosClient
         r.EnsureSuccessStatusCode();
         return r.Data;
     }
+
     public async Task<Models.FundManagerUserModel[]> GeFundManager(string fund_id)
     {
         var r = await client.GetAsync<Models.FundManagerUserModel[]>($"fund/{fund_id}/managers");
