@@ -2,7 +2,7 @@
 
 using System;
 
-public class InvoiceDetalis
+public class InvoiceDetails
 {
     public int amount { get; set; }
     public long created { get; set; }
@@ -19,4 +19,3 @@ public class InvoiceDetalis
     public string type { get; set; }
     public string uid { get; set; }
 }
-
