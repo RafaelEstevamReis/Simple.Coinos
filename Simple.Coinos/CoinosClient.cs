@@ -148,42 +148,70 @@ public class CoinosClient
     }
 
     /* Invoices */
-    public async Task<Models.InvoiceDetalis> CreateInvoice(Network network, string currency, ulong? valueSat = null, decimal? valueFiat = null, int? expiry = null, string? memo = null, string? webhook = null)
+    public async Task<Models.InvoiceDetails> CreateInvoice(Network network, string currency, ulong? valueSat = null, decimal? valueFiat = null, int? expiry = null, string? memo = null, string? webhook = null)
     {
         if (!Authenticated) throw new Exception("You must logon first");
 
-        if (string.IsNullOrEmpty(currency))
+        return await internalCreateInvoice(new Models.CreateInvoiceModel
         {
-            throw new ArgumentException($"'{nameof(currency)}' cannot be null or empty.", nameof(currency));
-        }
-
-        if (valueSat == null && valueFiat == null)
-        {
-            throw new ArgumentException($"'{nameof(valueSat)}' and '{nameof(valueFiat)}' cannot be both null.");
-        }
-        if (valueSat != null && valueFiat != null)
-        {
-            throw new ArgumentException($"'{nameof(valueSat)}' and '{nameof(valueFiat)}' cannot be both non-null.");
-        }
-
-        if (!string.IsNullOrEmpty(memo) && memo.Length > 200)
-        {
-            throw new ArgumentException($"'{nameof(memo)}' memo should not exceed 200 chars.", nameof(memo));
-        }
-
-        var r = await client.PostAsync<Models.InvoiceDetalis>("invoice", new
-        {
-            invoice = new
+            invoice = new Models.CreateInvoiceModel.InvoiceModel
             {
                 amount = valueSat,
                 fiat = valueFiat,
                 type = network.ToString(),
-                currency,
-                expiry,
-                memo,
-                webhook,
+                currency = currency,
+                expiry = expiry,
+                memo = memo,
+                webhook = webhook,
             }
         });
+    }
+    /// <summary>
+    /// Generate a new invoice on behalf of a user (allow unauthenticated)
+    /// </summary>
+    public async Task<Models.InvoiceDetails> CreateInvoiceOnBehalfOfUser(Network network, string currency, string userName, ulong? valueSat = null, decimal? valueFiat = null, int? expiry = null, string? memo = null, string? webhook = null)
+    {
+        return await internalCreateInvoice(new Models.CreateInvoiceModel
+        {
+            invoice = new Models.CreateInvoiceModel.InvoiceModel
+            {
+                amount = valueSat,
+                fiat = valueFiat,
+                type = network.ToString(),
+                currency = currency,
+                expiry = expiry,
+                memo = memo,
+                webhook = webhook,
+            },
+            user = new Models.CreateInvoiceModel.UserModel
+            {
+                username = userName
+            }
+        });
+    }
+
+    private async Task<Models.InvoiceDetails> internalCreateInvoice(Models.CreateInvoiceModel invoice)
+    {
+        if (string.IsNullOrEmpty(invoice.invoice.currency))
+        {
+            throw new ArgumentException($"'{nameof(invoice.invoice.currency)}' cannot be null or empty.", nameof(invoice.invoice.currency));
+        }
+
+        if (invoice.invoice.amount == null && invoice.invoice.fiat == null)
+        {
+            throw new ArgumentException($"'{nameof(invoice.invoice.amount)}' and '{nameof(invoice.invoice.fiat)}' cannot be both null.");
+        }
+        if (invoice.invoice.amount != null && invoice.invoice.fiat != null)
+        {
+            throw new ArgumentException($"'{nameof(invoice.invoice.amount)}' and '{nameof(invoice.invoice.fiat)}' cannot be both non-null.");
+        }
+
+        if (!string.IsNullOrEmpty(invoice.invoice.memo) && invoice.invoice.memo.Length > 200)
+        {
+            throw new ArgumentException($"'{nameof(invoice.invoice.memo)}' memo should not exceed 200 chars.", nameof(invoice.invoice.memo));
+        }
+
+        var r = await client.PostAsync<Models.InvoiceDetails>("invoice", invoice);
 
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
@@ -192,13 +220,13 @@ public class CoinosClient
     /// <summary>
     /// Get any invoice (allow unauthenticated)
     /// </summary>
-    public async Task<Models.InvoiceDetalis> GetInvoice(string hash)
+    public async Task<Models.InvoiceDetails> GetInvoice(string hash)
     {
         if (string.IsNullOrWhiteSpace(hash))
         {
             throw new ArgumentException($"'{nameof(hash)}' cannot be null or whitespace.", nameof(hash));
         }
-        var r = await client.GetAsync<Models.InvoiceDetalis>($"invoice/{hash}");
+        var r = await client.GetAsync<Models.InvoiceDetails>($"invoice/{hash}");
 
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
@@ -263,7 +291,7 @@ public class CoinosClient
         return r.Data;
     }
 
-    [Obsolete("Use `Payment_ToLNAddress()` instead", false)]
+    [Obsolete("Use `Payment_ToLNAddress()` instead", true)]
     public async Task Payment_ToAddress(string ln_address, int amount_sat, int max_fee = 500)
         => await Payment_ToLNAddress(ln_address, amount_sat, max_fee);
     public async Task<Models.Payment> Payment_ToLNAddress(string ln_address, int amount_sat, int max_fee = 500)
@@ -313,7 +341,6 @@ public class CoinosClient
         return r.Data;
     }
 
-
     /* Funds */
     public async Task<Models.FundModel> GetFund(string fund_id)
     {
@@ -342,7 +369,6 @@ public class CoinosClient
         r.EnsureSuccessStatusCode<string>();
         return r.Data;
     }
-
 
     /* Misc */
     /// <summary>
@@ -400,5 +426,4 @@ public class CoinosClient
     {
         return (long)(dt - DateTime.UnixEpoch).TotalMilliseconds;
     }
-
 }
